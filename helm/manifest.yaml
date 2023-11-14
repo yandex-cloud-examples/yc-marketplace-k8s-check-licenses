@@ -1,0 +1,41 @@
+helm_chart:
+  name: cr.yandex/crpg9b0te951qk5ou0kd/sample-check-license-helm/sample-check-license
+  tag: v1.0
+
+requirements:
+  k8s_version: ">= 1.18.0"
+
+images:
+  - name_with_registry: image.repository
+    tag: image.tag
+
+user_values:
+  - name: clusterId
+    disabled: true
+    title:
+      ru: Идентификатор кластера
+      en: Cluster Id
+    description:
+      ru: Идентификатор кластера будет использоваться, чтобы обозначить, какому кластеру принадлежит облачный ресурс.
+      en: The identifier of the Kubernetes cluster.
+    cluster_id_value:
+      required: true
+  - name: licenseId
+    disabled: true
+    title:
+      ru: Идентификатор лицензии
+      en: License Id
+    description:
+      ru: Идентификатор лицензии, к которой будут привязано приложение.
+      en: The identifier of the License.
+    string_value:
+      required: true
+  - name: saKeySecretKey
+    title:
+      ru: Ключ сервисного аккаунта
+      en: Secret key
+    description:
+      ru: "Ключ сервисного аккаунта. Используйте команду: `yc iam key create --service-account-id <SERVICE_ACCOUNT_ID> --output sa-key.json & tr -d '\n' < sa-key.json`."
+      en: "Secret key for service account key for the ALB controller. (Use: `yc iam key create --service-account-id <SERVICE_ACCOUNT_ID> --output sa-key.json & tr -d '\n' < sa-key.json`)"
+    service_account_key_value:
+      required: true

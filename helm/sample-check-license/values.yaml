@@ -1,0 +1,12 @@
+image:
+  repository: cr.yandex/crpg9b0te951qk5ou0kd/sample-check-license
+  tag: 1.0.0
+  pullPolicy: Always
+
+clusterId: "enter cluster-id"
+
+licenseId: "enter license-id"
+
+saKeySecretName: yc-sample-check-license-sa-secret
+saKeySecretKeyFile: sa-key.json
+saKeySecretKey: ""
