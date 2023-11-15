@@ -1,6 +1,6 @@
 helm_chart:
-  name: cr.yandex/crpg9b0te951qk5ou0kd/sample-check-license-helm/sample-check-license
-  tag: v1.0
+  name: cr.yandex/<your registry id>/sample_check_license/sample-check-license
+  tag: 1.0
 
 requirements:
   k8s_version: ">= 1.18.0"
@@ -21,14 +21,13 @@ user_values:
     cluster_id_value:
       required: true
   - name: licenseId
-    disabled: true
     title:
       ru: Идентификатор лицензии
       en: License Id
     description:
       ru: Идентификатор лицензии, к которой будут привязано приложение.
       en: The identifier of the License.
-    string_value:
+    license_id_value:
       required: true
   - name: saKeySecretKey
     title:

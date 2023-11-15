@@ -4,19 +4,19 @@
 
 1. Build docker image:
     ```
-    REGISTRY_ID=crp72iu38e4jkx0fdp8a
-    docker build -t sample-check-license
+    docker build -t sample-check-license .
     ```
 
 2. Deploy docker image to [**Yandex Container Registry**](https://cloud.yandex.ru/docs/container-registry/).
     ```
+    REGISTRY_ID=crp72iu38e4jkx0fdp8a
     docker tag sample-check-license cr.yandex/$REGISTRY_ID/sample-check-license:1.0.0
     docker push cr.yandex/$REGISTRY_ID/sample-check-license:1.0.0
     ```
 
 3. Correct helm-chart values for your docker image.
 
-    Change `image.repository` values in *helm/sample-check-license/values.yaml* to your docker name,\
+    Change `image.repository` values in *helm/values.yaml* to your docker name,\
     like `cr.yandex/$REGISTRY_ID/sample-check-license`.
 
 4. Test package in your cluster *(optional)*.
@@ -48,10 +48,12 @@
 5. Push helm chart to your container registry:
     ```
     helm package ./helm/sample-check-license/
-    helm push sample-check-license-1.0.tgz oci://cr.yandex/$REGISTRY_ID/sample-check-license-helm
+    helm push sample-check-license-1.0.tgz oci://cr.yandex/$REGISTRY_ID/sample-check-license
     ```
 
 6. Change helm/manifest.yaml value `helm_chart.name` to helm chart name from your registry, like
     ```
-    cr.yandex/$REGISTRY_ID/sample-check-license-helm/sample-check-license:1.0
+    cr.yandex/$REGISTRY_ID/sample-check-license/sample-check-license:1.0
     ```
+   
+7. Now you can publish your product by [**publisher instruction**](https://cloud.yandex.ru/docs/marketplace/operations/create-container)

@@ -5,13 +5,13 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/yandex-cloud/go-genproto/yandex/cloud/marketplace/licensemanager/v1"
-	ycsdk "github.com/yandex-cloud/go-sdk"
-	"github.com/yandex-cloud/go-sdk/iamkey"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"strconv"
+
+	"github.com/yandex-cloud/go-genproto/yandex/cloud/marketplace/licensemanager/v1"
+	ycsdk "github.com/yandex-cloud/go-sdk"
+	"github.com/yandex-cloud/go-sdk/iamkey"
 )
 
 var (
@@ -28,19 +28,21 @@ var (
 
 func main() {
 	err := flags.Parse(os.Args[1:])
-	if err != nil || len(clusterID) == 0 || len(licenseID) == 0 || len(secretFile) == 0 || len(uuid) == 0 {
+	if err != nil || clusterID == "" || licenseID == "" || secretFile == "" || uuid == "" {
 		flags.PrintDefaults()
 		os.Exit(-1)
 	}
 
 	sdk, err = buildSDK()
 	if err != nil || sdk == nil {
+		fmt.Printf("Build yandex sdk error: %s\n", err.Error())
 		os.Exit(-2)
 	}
 
 	http.HandleFunc("/", handler)
 	err = http.ListenAndServe(":"+strconv.Itoa(port), nil)
 	if err != nil {
+		fmt.Printf("ListenAndServe error: %s\n", err.Error())
 		os.Exit(-3)
 	}
 }
@@ -88,7 +90,7 @@ func registerFlags() *flag.FlagSet {
 	f.StringVar(&secretFile, "secret-file", "", "secret file")
 	f.StringVar(&uuid, "uuid", "", "uuid")
 	f.IntVar(&port, "port", 8080, "port")
-	flag.StringVar(&endpoint, "endpoint", "", "cloud environment endpoint (defaults to prod endpoint)")
+	f.StringVar(&endpoint, "endpoint", "", "cloud environment endpoint (defaults to prod endpoint)")
 	return f
 }
 
@@ -115,7 +117,7 @@ type Key struct {
 }
 
 func getCredsFromFile(keyFile string) (*iamkey.Key, error) {
-	data, err := ioutil.ReadFile(keyFile)
+	data, err := os.ReadFile(keyFile)
 	if err != nil {
 		return nil, err
 	}
