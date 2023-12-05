@@ -22,11 +22,11 @@ user_values:
       required: true
   - name: licenseId
     title:
-      ru: Идентификатор лицензии
+      ru: Идентификатор подписки
       en: License Id
     description:
-      ru: Идентификатор лицензии, к которой будут привязано приложение.
-      en: The identifier of the License.
+      ru: Идентификатор подписки, к которой будут привязано приложение.
+      en: The identifier of the Subscription.
     license_id_value:
       required: true
   - name: saKeySecretKey

@@ -48,7 +48,7 @@ func main() {
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	err := checkLicense(context.Background(), sdk, licenseID, clusterID+"_"+uuid)
+	err := useLicense(context.Background(), sdk, licenseID, clusterID+"_"+uuid)
 	if err == nil {
 		fmt.Fprintf(w, "License is OK")
 		return
@@ -56,10 +56,10 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "License is ERROR: ", err.Error())
 }
 
-func checkLicense(ctx context.Context, sdk *ycsdk.SDK, licenseInstanceID string, resourceID string) error {
+func useLicense(ctx context.Context, sdk *ycsdk.SDK, licenseInstanceID string, resourceID string) error {
 	ensureOp, err := sdk.Marketplace().LicenseManager().Lock().Ensure(ctx, &licensemanager.EnsureLockRequest{
 		InstanceId: licenseInstanceID,
-		ResourceId: resourceID, // Use compute instance id as resource ID
+		ResourceId: resourceID, // Use k8s instance id as resource ID
 	})
 	op, err := sdk.WrapOperation(ensureOp, err)
 	if err != nil {
